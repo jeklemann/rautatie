@@ -1,3 +1,7 @@
+mod transforms;
+
+pub mod indicative;
+
 pub fn gradate_t_char(previous_syllable: &str) -> String {
     let previous_char = previous_syllable.chars().last().unwrap();
 
