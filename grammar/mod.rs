@@ -38,11 +38,11 @@ fn get_minä_stem(verb: &mut Verb) {
 
 fn get_he_stem(verb: &mut Verb) {
     match verb.verb_type {
-        VerbType::ONE | VerbType::TWO | VerbType::FIVE => {
-            verb.transform(get_stem);
-        }
-        VerbType::THREE | VerbType::FOUR | VerbType::SIX => {
+        VerbType::ONE | VerbType::THREE | VerbType::FOUR | VerbType::SIX => {
             verb.transform(get_strong_stem);
+        }
+        VerbType::TWO | VerbType::FIVE => {
+            verb.transform(get_stem);
         }
     }
 }
