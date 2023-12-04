@@ -13,6 +13,7 @@ fn main() {
         String::from("käy"),
         None,
         false,
+        false,
     );
 
     visit.transform(|verb| {

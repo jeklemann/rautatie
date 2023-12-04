@@ -23,6 +23,7 @@ pub struct Verb {
     pub weak_stem: String,
     pub imperfect_stem: Option<String>,
     pub has_short_past_participle: bool,
+    pub has_a_to_o_transformation: bool,
     pub log: Vec<TransformLogEntry>,
 }
 
@@ -48,6 +49,7 @@ pub fn create_verb(
     weak_stem: String,
     imperfect_stem: Option<String>,
     has_short_past_participle: bool,
+    has_a_to_o_transformation: bool,
 ) -> Verb {
     return Verb {
         text: infinitive.clone(),
@@ -57,6 +59,7 @@ pub fn create_verb(
         weak_stem: weak_stem,
         imperfect_stem: imperfect_stem,
         has_short_past_participle: has_short_past_participle,
+        has_a_to_o_transformation: has_a_to_o_transformation,
         log: Vec::new(),
     };
 }

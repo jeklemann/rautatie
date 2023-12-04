@@ -43,7 +43,7 @@ fn parse_conj_macro_tokens(tokens: Vec<&str>) -> Option<Verb> {
         "kaivaa" => {
             let infinitive = format!("{}{}aa", tokens[1], tokens[2]);
             let strong = format!("{}{}a", tokens[1], tokens[2]);
-            let weak = format!("{}{}a", tokens[1], tokens[3]); // FIXME: Figure this a a a o rule shit out (maybe put some flags in to show it during the log)
+            let weak = format!("{}{}a", tokens[1], tokens[3]);
             (infinitive, VerbType::ONE, strong, weak, None)
         }
         "laskea" => {
@@ -156,6 +156,7 @@ fn parse_conj_macro_tokens(tokens: Vec<&str>) -> Option<Verb> {
         weak_stem,
         imperfect_stem,
         tokens[0] == "taitaa",
+        tokens[0] == "saartaa" || tokens[0] == "kaivaa",
     ));
 }
 
