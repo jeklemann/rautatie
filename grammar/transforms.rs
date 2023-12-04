@@ -43,7 +43,7 @@ pub enum Person {
 fn get_third_person_singular_ending(stem: &String) -> Option<String> {
     lazy_static! {
         static ref DIPHTHONG_ENDING: Regex = Regex::new(
-            r"(aa)|(ee)|(ii)|(oo)|(uu)|(ää)|(öö)|(yy)|(uo)|(yö)|(ie)|([aeiouäöy][iuy])$"
+            r"((aa)|(ee)|(ii)|(oo)|(uu)|(ää)|(öö)|(yy)|(uo)|(yö)|(ie)|([aeiouäöy][iuy]))$"
         )
         .unwrap();
     }
@@ -132,4 +132,3 @@ pub fn prepend_personal_negative(verb: &Verb, person: Person) -> Option<Transfor
         new_text: format!("{} {}", negative, verb.text),
     });
 }
-
