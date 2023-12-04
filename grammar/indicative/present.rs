@@ -1,17 +1,6 @@
+use crate::grammar::get_minä_stem;
 use crate::grammar::transforms::*;
 use crate::verb::{Verb, VerbType};
-
-fn get_minä_stem(verb: &mut Verb) {
-    match verb.verb_type {
-        VerbType::ONE => {
-            verb.transform(get_weak_stem);
-        }
-        _ => {
-            // All other types either use no gradation or use strong
-            verb.transform(get_strong_stem);
-        }
-    }
-}
 
 fn get_passive_stem(verb: &mut Verb) {
     if let VerbType::ONE = verb.verb_type {
