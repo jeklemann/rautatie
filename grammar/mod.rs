@@ -46,3 +46,19 @@ fn get_he_stem(verb: &mut Verb) {
         }
     }
 }
+
+fn get_passive_stem(verb: &mut Verb) {
+    if let VerbType::ONE = verb.verb_type {
+        verb.transform(get_weak_stem);
+
+        let last_char = verb.text.chars().last().unwrap();
+
+        if last_char == 'a' || last_char == 'ä' {
+            verb.transform(modify_stem_for_type_one_passive);
+        }
+
+        verb.transform(add_type_one_passive_marker);
+    } else {
+        verb.transform(get_infinitive);
+    }
+}
