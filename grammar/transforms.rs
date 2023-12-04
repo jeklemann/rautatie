@@ -31,7 +31,7 @@ pub fn get_weak_stem(verb: &Verb) -> Option<TransformLogEntry> {
     });
 }
 
-enum Person {
+pub enum Person {
     FirstSingular,
     SecondSingular,
     ThirdSingular,
@@ -56,7 +56,14 @@ fn get_third_person_singular_ending(stem: &String) -> Option<String> {
     }
 }
 
-fn add_personal_ending(verb: &Verb, person: Person) -> Option<TransformLogEntry> {
+pub fn append_ending(verb: &Verb, ending: String, ending_name: &str) -> Option<TransformLogEntry> {
+    return Some(TransformLogEntry {
+        action: format!("Add the {} ending '{}'", ending_name, ending),
+        new_text: format!("{}{}", verb.text, ending),
+    });
+}
+
+pub fn add_personal_ending(verb: &Verb, person: Person) -> Option<TransformLogEntry> {
     let (ending, ending_name) = match person {
         Person::FirstSingular => (String::from("n"), "first person singular"),
         Person::SecondSingular => (String::from("t"), "second person singular"),
@@ -76,34 +83,7 @@ fn add_personal_ending(verb: &Verb, person: Person) -> Option<TransformLogEntry>
         }
     };
 
-    return Some(TransformLogEntry {
-        action: format!("Add the {} ending '{}'", ending_name, ending),
-        new_text: format!("{}{}", verb.text, ending),
-    });
-}
-
-pub fn add_first_person_singular_ending(verb: &Verb) -> Option<TransformLogEntry> {
-    return add_personal_ending(verb, Person::FirstSingular);
-}
-
-pub fn add_second_person_singular_ending(verb: &Verb) -> Option<TransformLogEntry> {
-    return add_personal_ending(verb, Person::SecondSingular);
-}
-
-pub fn add_third_person_singular_ending(verb: &Verb) -> Option<TransformLogEntry> {
-    return add_personal_ending(verb, Person::ThirdSingular);
-}
-
-pub fn add_first_person_plural_ending(verb: &Verb) -> Option<TransformLogEntry> {
-    return add_personal_ending(verb, Person::FirstPlural);
-}
-
-pub fn add_second_person_plural_ending(verb: &Verb) -> Option<TransformLogEntry> {
-    return add_personal_ending(verb, Person::SecondPlural);
-}
-
-pub fn add_third_person_plural_ending(verb: &Verb) -> Option<TransformLogEntry> {
-    return add_personal_ending(verb, Person::ThirdPlural);
+    return append_ending(verb, ending, ending_name);
 }
 
 pub fn add_type_one_passive_marker(verb: &Verb) -> Option<TransformLogEntry> {
@@ -137,7 +117,7 @@ pub fn add_present_passive_ending(verb: &Verb) -> Option<TransformLogEntry> {
     });
 }
 
-fn prepend_personal_negative(verb: &Verb, person: Person) -> Option<TransformLogEntry> {
+pub fn prepend_personal_negative(verb: &Verb, person: Person) -> Option<TransformLogEntry> {
     let (negative, negative_name) = match person {
         Person::FirstSingular => ("en", "first person singular"),
         Person::SecondSingular => ("et", "second person singular"),
@@ -153,26 +133,3 @@ fn prepend_personal_negative(verb: &Verb, person: Person) -> Option<TransformLog
     });
 }
 
-pub fn prepend_first_person_singular_negative(verb: &Verb) -> Option<TransformLogEntry> {
-    return prepend_personal_negative(verb, Person::FirstSingular);
-}
-
-pub fn prepend_second_person_singular_negative(verb: &Verb) -> Option<TransformLogEntry> {
-    return prepend_personal_negative(verb, Person::SecondSingular);
-}
-
-pub fn prepend_third_person_singular_negative(verb: &Verb) -> Option<TransformLogEntry> {
-    return prepend_personal_negative(verb, Person::ThirdSingular);
-}
-
-pub fn prepend_first_person_plural_negative(verb: &Verb) -> Option<TransformLogEntry> {
-    return prepend_personal_negative(verb, Person::FirstPlural);
-}
-
-pub fn prepend_second_person_plural_negative(verb: &Verb) -> Option<TransformLogEntry> {
-    return prepend_personal_negative(verb, Person::SecondPlural);
-}
-
-pub fn prepend_third_person_plural_negative(verb: &Verb) -> Option<TransformLogEntry> {
-    return prepend_personal_negative(verb, Person::ThirdPlural);
-}

@@ -4,7 +4,7 @@ mod wiktionary;
 
 use wiktionary::get_verb_from_wiktionary;
 
-use crate::grammar::*;
+use crate::grammar::moods::*;
 
 fn main() {
     let Some(mut verb) = get_verb_from_wiktionary("tietää") else {
