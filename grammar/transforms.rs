@@ -42,8 +42,10 @@ enum Person {
 
 fn get_third_person_singular_ending(stem: &String) -> Option<String> {
     lazy_static! {
-        static ref DIPHTHONG_ENDING: Regex =
-            Regex::new(r"(([aeiouäöy]{2})|(uo)|(yö)|(ie)|([aeiouäöy][iuy]))$").unwrap();
+        static ref DIPHTHONG_ENDING: Regex = Regex::new(
+            r"(aa)|(ee)|(ii)|(oo)|(uu)|(ää)|(öö)|(yy)|(uo)|(yö)|(ie)|([aeiouäöy][iuy])$"
+        )
+        .unwrap();
     }
 
     if !DIPHTHONG_ENDING.is_match(stem) {
