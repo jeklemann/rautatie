@@ -5,6 +5,9 @@ use crate::verb::verb::*;
 mod verb;
 mod wiktionary;
 
+use verb::*;
+use wiktionary::get_verb_from_wiktionary;
+
 fn main() {
     let mut visit = create_verb(
         String::from("käydä"),
