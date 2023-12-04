@@ -23,4 +23,7 @@ fn main() {
     });
     visit.print_log();
     println!("{:#?}", visit);
+
+    let verb = get_verb_from_wiktionary("tietää");
+    println!("{:#?}", verb);
 }
