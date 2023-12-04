@@ -555,6 +555,7 @@ dependencies = [
 name = "rautatie"
 version = "0.1.0"
 dependencies = [
+ "lazy_static",
  "regex",
  "reqwest",
 ]

@@ -1,3 +1,6 @@
+use lazy_static::lazy_static;
+use regex::Regex;
+
 use crate::verb::{TransformLogEntry, Verb};
 
 pub fn get_infinitive(verb: &Verb) -> Option<TransformLogEntry> {
@@ -30,11 +33,31 @@ enum Person {
     ThirdPlural,
 }
 
+fn get_third_person_singular_ending(stem: &String) -> Option<String> {
+    lazy_static! {
+        static ref DIPHTHONG_ENDING: Regex =
+            Regex::new(r"(([aeiouäöy]{2})|(uo)|(yö)|(ie)|([aeiouäöy][iuy]))$").unwrap();
+    }
+
+    if !DIPHTHONG_ENDING.is_match(stem) {
+        let previous_vowel = stem.chars().last().unwrap();
+        return Some(previous_vowel.to_string());
+    } else {
+        return None;
+    }
+}
+
 fn add_personal_ending(verb: &Verb, person: Person) -> Option<TransformLogEntry> {
     let (ending, ending_name) = match person {
         Person::FirstSingular => (String::from("n"), "first person singular"),
         Person::SecondSingular => (String::from("t"), "second person singular"),
-        Person::ThirdSingular => (String::from("e"), "third person singular"),
+        Person::ThirdSingular => {
+            if let Some(ending) = get_third_person_singular_ending(&verb.text) {
+                (ending, "third person singular")
+            } else {
+                return None;
+            }
+        }
         Person::FirstPlural => (String::from("mme"), "first person plural"),
         Person::SecondPlural => (String::from("tte"), "second person plural"),
         Person::ThirdPlural => {
