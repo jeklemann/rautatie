@@ -1,7 +1,4 @@
-use wiktionary::wiktionary::get_verb_from_wiktionary;
-
-use crate::verb::verb::*;
-
+mod grammar;
 mod verb;
 mod wiktionary;
 
@@ -27,6 +24,6 @@ fn main() {
     visit.print_log();
     println!("{:#?}", visit);
 
-    let verb = get_verb_from_wiktionary("tietää");
+    let verb = get_verb_from_wiktionary("tuntea");
     println!("{:#?}", verb);
 }

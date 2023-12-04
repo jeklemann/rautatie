@@ -1,3 +1,4 @@
+use crate::grammar::utils::gradate_t_char;
 use crate::verb::{create_verb, Verb, VerbType};
 use regex::Regex;
 use std::error::Error;
@@ -23,16 +24,20 @@ fn parse_conj_macro_tokens(tokens: Vec<&str>) -> Option<Verb> {
         }
         // We will only handle the top listed case
         "huutaa" | "saartaa" => {
+            let gradated_t = gradate_t_char(tokens[1]);
+
             let infinitive = format!("{}t{}{}", tokens[1], tokens[2], tokens[2]);
             let strong = format!("{}t{}", tokens[1], tokens[2]);
-            let weak = format!("{}t{}", tokens[1], tokens[2]); // FIXME: Handle gradation
+            let weak = format!("{}{}{}", tokens[1], gradated_t, tokens[2]);
             let imperfect = format!("{}si", tokens[1]);
             (infinitive, VerbType::ONE, strong, weak, Some(imperfect))
         }
         "soutaa" => {
+            let gradated_t = gradate_t_char(tokens[1]);
+
             let infinitive = format!("{}t{}{}", tokens[1], tokens[2], tokens[2]);
             let strong = format!("{}t{}", tokens[1], tokens[2]);
-            let weak = format!("{}t{}", tokens[1], tokens[2]); // FIXME: Handle gradation
+            let weak = format!("{}{}{}", tokens[1], gradated_t, tokens[2]);
             (infinitive, VerbType::ONE, strong, weak, None)
         }
         "kaivaa" => {
@@ -48,11 +53,11 @@ fn parse_conj_macro_tokens(tokens: Vec<&str>) -> Option<Verb> {
             (infinitive, VerbType::ONE, strong, weak, None)
         }
         "tuntea" => {
+            let gradated_t = gradate_t_char(tokens[1]);
+
             let infinitive = format!("{}te{}", tokens[1], tokens[2]);
             let strong = format!("{}te", tokens[1]);
-            let weak = format!("{}e", tokens[1]);
-            // FIXME: Handle gradation gradate_consonant(first &str, second &str) -> &str (handle the border characters).
-            // If given a blank string, just return "" if we need that info
+            let weak = format!("{}{}e", tokens[1], gradated_t);
             let imperfect = format!("{}si", tokens[1]);
             (infinitive, VerbType::ONE, strong, weak, Some(imperfect))
         }
