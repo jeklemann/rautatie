@@ -1,4 +1,4 @@
-use crate::grammar::utils::gradate_t_char;
+use crate::grammar::gradate_t_char;
 use crate::verb::{create_verb, Verb, VerbType};
 use regex::Regex;
 use std::error::Error;
