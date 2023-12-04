@@ -36,9 +36,33 @@ impl Verb {
     }
 
     pub fn print_log(&self) {
+        match self.verb_type {
+            VerbType::ONE => {
+                println!("Verb type 1:\nMinä stem is weak")
+            }
+            VerbType::TWO => {
+                println!("Verb type 2:\nMinä stem is strong")
+            }
+            VerbType::THREE => {
+                println!("Verb type 3:\nMinä stem is strong")
+            }
+            VerbType::FOUR => {
+                println!("Verb type 4:\nMinä stem is strong")
+            }
+            VerbType::FIVE => {
+                println!("Verb type 5:\nMinä stem is strong")
+            }
+            VerbType::SIX => {
+                println!("Verb type 6:\nMinä stem is strong")
+            }
+        }
+
+        println!("\nSteps taken:");
         for e in self.log.iter() {
             println!("{} | {}", e.new_text, e.action);
         }
+
+        println!("\nFinal form is '{}'", self.text);
     }
 }
 
