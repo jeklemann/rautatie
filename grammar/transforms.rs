@@ -10,6 +10,13 @@ pub fn get_infinitive(verb: &Verb) -> Option<TransformLogEntry> {
     });
 }
 
+pub fn get_stem(verb: &Verb) -> Option<TransformLogEntry> {
+    return Some(TransformLogEntry {
+        action: String::from("Get the stem (this type has no gradation)"),
+        new_text: verb.strong_stem.clone(),
+    });
+}
+
 pub fn get_strong_stem(verb: &Verb) -> Option<TransformLogEntry> {
     return Some(TransformLogEntry {
         action: String::from("Get the strong stem"),

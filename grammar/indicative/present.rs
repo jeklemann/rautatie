@@ -1,3 +1,4 @@
+use crate::grammar::get_he_stem;
 use crate::grammar::get_minä_stem;
 use crate::grammar::transforms::*;
 use crate::verb::{Verb, VerbType};
@@ -31,7 +32,8 @@ pub fn second_person_singular_positive(verb: &mut Verb) {
 }
 
 pub fn third_person_singular_positive(verb: &mut Verb) {
-    verb.transform(get_strong_stem);
+    get_he_stem(verb);
+
     verb.transform(add_third_person_singular_ending);
 }
 
@@ -48,7 +50,8 @@ pub fn second_person_plural_positive(verb: &mut Verb) {
 }
 
 pub fn third_person_plural_positive(verb: &mut Verb) {
-    verb.transform(get_strong_stem);
+    get_he_stem(verb);
+
     verb.transform(add_third_person_plural_ending);
 }
 

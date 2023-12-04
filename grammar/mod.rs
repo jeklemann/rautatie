@@ -27,8 +27,21 @@ fn get_minä_stem(verb: &mut Verb) {
         VerbType::ONE => {
             verb.transform(get_weak_stem);
         }
-        _ => {
-            // All other types either use no gradation or use strong
+        VerbType::TWO | VerbType::FIVE => {
+            verb.transform(get_stem);
+        }
+        VerbType::THREE | VerbType::FOUR | VerbType::SIX => {
+            verb.transform(get_strong_stem);
+        }
+    }
+}
+
+fn get_he_stem(verb: &mut Verb) {
+    match verb.verb_type {
+        VerbType::ONE | VerbType::TWO | VerbType::FIVE => {
+            verb.transform(get_stem);
+        }
+        VerbType::THREE | VerbType::FOUR | VerbType::SIX => {
             verb.transform(get_strong_stem);
         }
     }
