@@ -28,7 +28,7 @@ pub struct Verb {
 }
 
 impl Verb {
-    pub fn transform(&mut self, transform_func: fn(&mut Verb) -> TransformLogEntry) {
+    pub fn transform(&mut self, transform_func: fn(&Verb) -> TransformLogEntry) {
         let entry = transform_func(self);
         self.text = entry.new_text.clone();
         self.log.push(entry);
