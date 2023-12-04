@@ -142,7 +142,14 @@ fn parse_conj_macro_tokens(tokens: Vec<&str>) -> Option<Verb> {
             let infinitive = format!("{}t{}{}", tokens[1], tokens[2], tokens[2]);
             let strong = format!("{}t{}", tokens[1], tokens[2]);
             let weak = format!("{}d{}", tokens[1], tokens[2]);
-            (infinitive, VerbType::ONE, strong, weak, None)
+            let imperfect_stem = format!("{}si", tokens[1]);
+            (
+                infinitive,
+                VerbType::ONE,
+                strong,
+                weak,
+                Some(imperfect_stem),
+            )
         }
         &_ => {
             return None;
