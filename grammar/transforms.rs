@@ -56,7 +56,7 @@ fn get_third_person_singular_ending(stem: &String) -> Option<String> {
     }
 }
 
-pub fn append_ending(verb: &Verb, ending: String, ending_name: &str) -> Option<TransformLogEntry> {
+pub fn append_ending(verb: &Verb, ending: &str, ending_name: &str) -> Option<TransformLogEntry> {
     return Some(TransformLogEntry {
         action: format!("Add the {} ending '{}'", ending_name, ending),
         new_text: format!("{}{}", verb.text, ending),
@@ -82,30 +82,7 @@ pub fn add_personal_ending(verb: &Verb, person: Person) -> Option<TransformLogEn
         }
     };
 
-    return append_ending(verb, ending, ending_name);
-}
-
-pub fn add_type_one_passive_marker(verb: &Verb) -> Option<TransformLogEntry> {
-    return Some(TransformLogEntry {
-        action: format!("Add 't{}' to the end for type 1", verb.vowels.a),
-        new_text: format!("{}t{}", verb.text, verb.vowels.a),
-    });
-}
-
-pub fn add_present_passive_ending(verb: &Verb) -> Option<TransformLogEntry> {
-    return Some(TransformLogEntry {
-        action: format!("Add the passive ending '{}n'", verb.vowels.a),
-        new_text: format!("{}{}n", verb.text, verb.vowels.a),
-    });
-}
-
-pub fn add_present_passive_ending(verb: &Verb) -> Option<TransformLogEntry> {
-    let harmonized_a = verb.infinitive.chars().last().unwrap();
-
-    return Some(TransformLogEntry {
-        action: format!("Add the passive ending '{}n'", harmonized_a),
-        new_text: format!("{}{}n", verb.text, harmonized_a),
-    });
+    return append_ending(verb, ending.as_str(), ending_name);
 }
 
 pub fn prepend_personal_negative(verb: &Verb, person: Person) -> Option<TransformLogEntry> {

@@ -55,7 +55,9 @@ pub fn third_person_plural_positive(verb: &mut Verb) {
 pub fn passive_positive(verb: &mut Verb) {
     get_passive_stem(verb);
 
-    verb.transform(add_present_passive_ending);
+    verb.transform(|verb| {
+        return append_ending(verb, format!("{}n", verb.vowels.a).as_str(), "passive");
+    });
 }
 
 pub fn first_person_singular_negative(verb: &mut Verb) {
