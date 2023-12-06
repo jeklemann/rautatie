@@ -31,6 +31,13 @@ pub fn get_weak_stem(verb: &Verb) -> Option<TransformLogEntry> {
     });
 }
 
+pub fn get_imperfect_stem(verb: &Verb) -> Option<TransformLogEntry> {
+    return Some(TransformLogEntry {
+        action: String::from("Get the special imperfect stem"),
+        new_text: verb.imperfect_stem.as_ref().unwrap().clone(),
+    });
+}
+
 pub enum Person {
     FirstSingular,
     SecondSingular,
@@ -98,5 +105,60 @@ pub fn prepend_personal_negative(verb: &Verb, person: Person) -> Option<Transfor
     return Some(TransformLogEntry {
         action: format!("Prepend the {} negative '{}'", negative_name, negative),
         new_text: format!("{} {}", negative, verb.text),
+    });
+}
+
+pub fn replace_ending(
+    verb: &Verb,
+    replace: &str,
+    replace_description: &str,
+    with: &str,
+    with_description: &str,
+) -> Option<TransformLogEntry> {
+    let re = Regex::new(format!(r"{}$", replace).as_str()).unwrap();
+    let replaced = re.replace(verb.text.as_str(), with);
+    if replaced == verb.text {
+        return None;
+    } else {
+        return Some(TransformLogEntry {
+            action: format!(
+                "Replace {} with {} '{}'",
+                replace_description, with_description, with
+            ),
+            new_text: replaced.into_owned(),
+        });
+    }
+}
+
+// Attempt to replace an unrounded vowel at the end, if it is not found, just add an i
+pub fn add_imperfect_marker_for_type_one(verb: &Verb) -> Option<TransformLogEntry> {
+    let res = replace_ending(verb, r"[aäei]", "unrounded vowel", "i", "imperfect marker");
+    match res {
+        Some(result) => Some(result),
+        None => return append_ending(verb, "i", "imperfect marker"),
+    }
+}
+
+pub fn add_imperfect_marker_for_type_two(verb: &Verb) -> Option<TransformLogEntry> {
+    lazy_static! {
+        static ref DIPHTHONG_ENDING_NO_I: Regex =
+            Regex::new(r"((aa)|(ee)|(oo)|(uu)|(ää)|(öö)|(yy)|(uo)|(yö)|(ie)|([aeiouäöy][uy]))$")
+                .unwrap();
+    }
+
+    if !DIPHTHONG_ENDING_NO_I.is_match(verb.text.as_str()) {
+        return None;
+    };
+
+    // If we have two vowels, drop the first one, shift the second one back, and add an i
+    let mut chars = verb.text.as_str().chars();
+    let last = chars.next_back().unwrap();
+    let second_last = chars.next_back().unwrap(); // Drop second to last character
+    return Some(TransformLogEntry {
+        action: format!(
+            "Drop the letter '{}' and append 'i' to form the imperfect stem",
+            second_last
+        ),
+        new_text: format!("{}{}i", chars.as_str(), last),
     });
 }
