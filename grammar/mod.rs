@@ -54,10 +54,24 @@ fn get_passive_stem(verb: &mut Verb) {
         let last_char = verb.text.chars().last().unwrap();
 
         if last_char == 'a' || last_char == 'ä' {
-            verb.transform(modify_stem_for_type_one_passive);
+            verb.transform(|verb| {
+                return replace_ending(
+                    verb,
+                    r"[aä]",
+                    verb.vowels.a.to_string().as_str(),
+                    "e",
+                    "the letter",
+                );
+            });
         }
 
-        verb.transform(add_type_one_passive_marker);
+        verb.transform(|verb| {
+            append_ending(
+                verb,
+                format!("t{}", verb.vowels.a).as_str(),
+                "verb type one passive stem",
+            )
+        });
     } else {
         verb.transform(get_infinitive);
     }

@@ -77,8 +77,7 @@ pub fn add_personal_ending(verb: &Verb, person: Person) -> Option<TransformLogEn
         Person::FirstPlural => (String::from("mme"), "first person plural"),
         Person::SecondPlural => (String::from("tte"), "second person plural"),
         Person::ThirdPlural => {
-            let harmonized_a = verb.infinitive.chars().last().unwrap();
-            let vat_ending = format!("v{}t", harmonized_a);
+            let vat_ending = format!("v{}t", verb.vowels.a);
             (vat_ending, "third person plural")
         }
     };
@@ -87,24 +86,16 @@ pub fn add_personal_ending(verb: &Verb, person: Person) -> Option<TransformLogEn
 }
 
 pub fn add_type_one_passive_marker(verb: &Verb) -> Option<TransformLogEntry> {
-    let harmonized_a = verb.infinitive.chars().last().unwrap();
-
     return Some(TransformLogEntry {
-        action: format!("Add 't{}' to the end for type 1", harmonized_a),
-        new_text: format!("{}t{}", verb.text, harmonized_a),
+        action: format!("Add 't{}' to the end for type 1", verb.vowels.a),
+        new_text: format!("{}t{}", verb.text, verb.vowels.a),
     });
 }
 
-pub fn modify_stem_for_type_one_passive(verb: &Verb) -> Option<TransformLogEntry> {
-    let mut chars = verb.text.chars();
-    let harmonized_a = chars.next_back().unwrap();
-
+pub fn add_present_passive_ending(verb: &Verb) -> Option<TransformLogEntry> {
     return Some(TransformLogEntry {
-        action: format!(
-            "Replace final '{}' with 'e' on verb type one if it exists in type 1",
-            harmonized_a
-        ),
-        new_text: format!("{}e", chars.as_str()),
+        action: format!("Add the passive ending '{}n'", verb.vowels.a),
+        new_text: format!("{}{}n", verb.text, verb.vowels.a),
     });
 }
 

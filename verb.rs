@@ -15,6 +15,13 @@ pub struct TransformLogEntry {
 }
 
 #[derive(Debug)]
+pub struct HarmonizedVowels {
+    pub a: char,
+    pub o: char,
+    pub u: char,
+}
+
+#[derive(Debug)]
 pub struct Verb {
     pub text: String,
     pub verb_type: VerbType,
@@ -24,6 +31,7 @@ pub struct Verb {
     pub imperfect_stem: Option<String>,
     pub has_short_past_participle: bool,
     pub has_a_to_o_transformation: bool,
+    pub vowels: &'static HarmonizedVowels,
     pub log: Vec<TransformLogEntry>,
 }
 
@@ -76,6 +84,24 @@ pub fn create_verb(
     has_short_past_participle: bool,
     has_a_to_o_transformation: bool,
 ) -> Verb {
+    static FRONT_VOWELS: HarmonizedVowels = HarmonizedVowels {
+        a: 'ä',
+        o: 'ö',
+        u: 'y',
+    };
+    static BACK_VOWELS: HarmonizedVowels = HarmonizedVowels {
+        a: 'a',
+        o: 'o',
+        u: 'u',
+    };
+
+    let harmonized_a = infinitive.chars().last().unwrap();
+    let vowels = if harmonized_a == 'a' {
+        &BACK_VOWELS
+    } else {
+        &FRONT_VOWELS
+    };
+
     return Verb {
         text: infinitive.clone(),
         verb_type: verb_type,
@@ -85,6 +111,7 @@ pub fn create_verb(
         imperfect_stem: imperfect_stem,
         has_short_past_participle: has_short_past_participle,
         has_a_to_o_transformation: has_a_to_o_transformation,
+        vowels: vowels,
         log: Vec::new(),
     };
 }
