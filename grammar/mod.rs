@@ -5,6 +5,7 @@ use self::transforms::*;
 mod transforms;
 
 pub mod moods;
+pub mod participles;
 
 pub fn gradate_t_char(previous_syllable: &str) -> String {
     let previous_char = previous_syllable.chars().last().unwrap();
