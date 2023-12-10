@@ -1,7 +1,10 @@
 use lazy_static::lazy_static;
 use regex::Regex;
 
-use crate::verb::{TransformLogEntry, Verb};
+use crate::{
+    verb::{TransformLogEntry, Verb},
+    wiktionary::get_verb_from_wiktionary,
+};
 
 pub fn get_infinitive(verb: &Verb) -> Option<TransformLogEntry> {
     return Some(TransformLogEntry {
@@ -179,5 +182,19 @@ pub fn add_active_past_participle_marker_for_type_three(verb: &Verb) -> Option<T
             &verb.text[indices[1]..indices[0]],
             verb.vowels.u
         ),
+    });
+}
+
+pub fn prepend_olla_form(
+    verb: &Verb,
+    form_name: &str,
+    form_func: fn(&mut Verb) -> (),
+) -> Option<TransformLogEntry> {
+    let mut olla_verb = get_verb_from_wiktionary("olla").unwrap();
+    form_func(&mut olla_verb);
+
+    return Some(TransformLogEntry {
+        action: format!("Prepend {} form of olla", form_name),
+        new_text: format!("{} {}", olla_verb.text, verb.text),
     });
 }
