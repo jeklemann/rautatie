@@ -151,6 +151,13 @@ fn parse_conj_macro_tokens(tokens: Vec<&str>) -> Option<Verb> {
                 Some(imperfect_stem),
             )
         }
+        "olla" => (
+            String::from("olla"),
+            VerbType::THREE,
+            String::from("ole"),
+            String::from("ole"),
+            None,
+        ),
         &_ => {
             return None;
         }
