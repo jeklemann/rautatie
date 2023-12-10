@@ -114,7 +114,7 @@ pub fn passive_positive(verb: &mut Verb) {
                 "d[aä]{2}n",
                 format!("present passive ending 'd{0}{0}n'", verb.vowels.a).as_str(),
                 "tiin",
-                "past passive ending",
+                "past passive",
             );
         }),
         VerbType::THREE => verb.transform(|verb| {
@@ -128,11 +128,17 @@ pub fn passive_positive(verb: &mut Verb) {
                 )
                 .as_str(),
                 "tiin",
-                "past passive ending",
+                "past passive",
             );
         }),
         _ => verb.transform(|verb| {
-            return append_ending(verb, "tiin", "past passive ending");
+            return replace_ending(
+                verb,
+                "t[aä]{2}n",
+                format!("past passive ending 't{0}{0}n'", verb.vowels.a).as_str(),
+                "ttiin",
+                "past passive",
+            );
         }),
     }
 }
