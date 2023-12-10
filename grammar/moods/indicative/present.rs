@@ -2,6 +2,7 @@ use crate::grammar::get_he_stem;
 use crate::grammar::get_minä_stem;
 use crate::grammar::get_passive_stem;
 use crate::grammar::transforms::*;
+use crate::verb::TransformLogEntry;
 use crate::verb::{Verb, VerbType};
 
 pub fn first_person_singular_positive(verb: &mut Verb) {
@@ -24,7 +25,14 @@ pub fn third_person_singular_positive(verb: &mut Verb) {
     get_he_stem(verb);
 
     verb.transform(|verb| {
-        return add_personal_ending(verb, Person::ThirdSingular);
+        if verb.infinitive == "olla" {
+            return Some(TransformLogEntry {
+                action: String::from("Use the special third person singular form 'on'"),
+                new_text: String::from("on"),
+            });
+        } else {
+            return add_personal_ending(verb, Person::ThirdSingular);
+        }
     });
 }
 
