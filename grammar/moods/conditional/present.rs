@@ -166,17 +166,11 @@ pub fn passive_negative(verb: &mut Verb) {
     passive_positive(verb);
 
     verb.transform(|verb| {
-        let indices: Vec<usize> = verb
-            .text
-            .char_indices()
-            .rev()
-            .take(2)
-            .map(|tuple| tuple.0)
-            .collect();
+        let stem_end = verb.text.char_indices().nth_back(1).unwrap().0;
 
         return Some(TransformLogEntry {
             action: String::from("Remove ending 'in'"),
-            new_text: String::from(&verb.text[..indices[1]]),
+            new_text: String::from(&verb.text[..stem_end]),
         });
     });
 
