@@ -106,6 +106,9 @@ pub fn third_person_plural_positive(verb: &mut Verb) {
 pub fn passive_positive(verb: &mut Verb) {
     super::present::passive_positive(verb);
 
+    // This can largely be explained as strengthening the grade of the passive ending itself
+    // Type 2 has daan -> tiin (d -> t), Type 3 will have ll -> lt for example, (st doesn't change because it is protected by s)
+    // Remaining types change from taan to ttiin (t -> tt)
     match verb.verb_type {
         VerbType::TWO => verb.transform(|verb| {
             return replace_ending(
