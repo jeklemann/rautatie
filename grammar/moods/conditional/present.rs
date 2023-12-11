@@ -100,7 +100,7 @@ pub fn third_person_plural_positive(verb: &mut Verb) {
 
 pub fn passive_positive(verb: &mut Verb) {
     // Based mostly off imperfect passive form
-    crate::indicative::imperfect::passive_positive(verb);
+    crate::grammar::moods::indicative::imperfect::passive_positive(verb);
 
     verb.transform(|verb| {
         return replace_ending(
