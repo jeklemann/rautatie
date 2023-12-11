@@ -80,8 +80,8 @@ pub fn passive_positive(verb: &mut Verb) {
     verb.transform(|verb| {
         return prepend_olla_form(
             verb,
-            "present passive positive",
-            super::present::passive_positive,
+            "present third person singular positive",
+            super::present::third_person_singular_positive,
         );
     });
 }
@@ -164,8 +164,8 @@ pub fn passive_negative(verb: &mut Verb) {
     verb.transform(|verb| {
         return prepend_olla_form(
             verb,
-            "present passive negative",
-            super::present::passive_negative,
+            "present third person singular negative",
+            super::present::third_person_singular_negative,
         );
     });
 }
