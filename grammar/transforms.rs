@@ -109,6 +109,32 @@ pub fn add_personal_ending(verb: &Verb, person: Person) -> Option<TransformLogEn
     return append_ending(verb, ending.as_str(), ending_name);
 }
 
+pub fn add_imperative_personal_ending(verb: &Verb, person: Person) -> Option<TransformLogEntry> {
+    let (ending, ending_name) = match person {
+        Person::FirstSingular | Person::SecondSingular => {
+            return None;
+        }
+        Person::ThirdSingular => (
+            format!("{0}{0}n", verb.vowels.o),
+            "imperative third person singular",
+        ),
+        Person::FirstPlural => (
+            format!("{0}{0}mme", verb.vowels.a),
+            "imperative first person plural",
+        ),
+        Person::SecondPlural => (
+            format!("{0}{0}", verb.vowels.a),
+            "imperative second person plural",
+        ),
+        Person::ThirdPlural => (
+            format!("{0}{0}t", verb.vowels.o),
+            "imperative third person plural",
+        ),
+    };
+
+    return append_ending(verb, ending.as_str(), ending_name);
+}
+
 pub fn prepend_personal_negative(verb: &Verb, person: Person) -> Option<TransformLogEntry> {
     let (negative, negative_name) = match person {
         Person::FirstSingular => ("en", "first person singular"),
@@ -121,6 +147,30 @@ pub fn prepend_personal_negative(verb: &Verb, person: Person) -> Option<Transfor
 
     return Some(TransformLogEntry {
         action: format!("Prepend the {} negative '{}'", negative_name, negative),
+        new_text: format!("{} {}", negative, verb.text),
+    });
+}
+
+pub fn prepend_imperative_personal_negative(
+    verb: &Verb,
+    person: Person,
+) -> Option<TransformLogEntry> {
+    let (negative, negative_name) = match person {
+        Person::FirstSingular => {
+            return None;
+        }
+        Person::SecondSingular => ("älä", "second person singular"),
+        Person::ThirdSingular => ("älköön", "third person singular"),
+        Person::FirstPlural => ("älkäämme", "first person plural"),
+        Person::SecondPlural => ("älkää", "second person plural"),
+        Person::ThirdPlural => ("älkööt", "third person plural"),
+    };
+
+    return Some(TransformLogEntry {
+        action: format!(
+            "Prepend the imperative {} negative '{}'",
+            negative_name, negative
+        ),
         new_text: format!("{} {}", negative, verb.text),
     });
 }
