@@ -71,17 +71,7 @@ pub fn second_person_singular_positive(verb: &mut Verb) {
 
 pub fn third_person_singular_positive(verb: &mut Verb) {
     get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        if verb.infinitive == "olla" {
-            return Some(TransformLogEntry {
-                action: String::from("Use the special third person singular form 'on'"),
-                new_text: String::from("on"),
-            });
-        } else {
-            return add_personal_ending(verb, Person::ThirdSingular);
-        }
-    });
+    // Don't add anything to this
 }
 
 pub fn first_person_plural_positive(verb: &mut Verb) {
