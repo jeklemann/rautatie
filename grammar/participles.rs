@@ -1,13 +1,6 @@
+use crate::grammar::moods::*;
+use crate::grammar::transforms::*;
 use crate::verb::{Verb, VerbType};
-
-use super::{
-    get_passive_stem,
-    moods::indicative,
-    transforms::{
-        add_active_past_participle_marker_for_type_three, append_ending, get_infinitive,
-        replace_ending,
-    },
-};
 
 pub fn past_active_participle(verb: &mut Verb, is_plural: bool) {
     verb.transform(get_infinitive);

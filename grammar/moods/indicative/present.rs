@@ -3,7 +3,7 @@ use crate::grammar::get_minä_stem;
 use crate::grammar::get_passive_stem;
 use crate::grammar::transforms::*;
 use crate::verb::TransformLogEntry;
-use crate::verb::{Verb, VerbType};
+use crate::verb::Verb;
 
 pub fn first_person_singular_positive(verb: &mut Verb) {
     get_minä_stem(verb);

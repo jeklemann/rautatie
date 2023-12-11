@@ -1,6 +1,5 @@
 use crate::grammar::get_he_stem;
 use crate::grammar::get_minä_stem;
-use crate::grammar::get_passive_stem;
 use crate::grammar::participles::*;
 use crate::grammar::transforms::*;
 use crate::verb::{Verb, VerbType};
