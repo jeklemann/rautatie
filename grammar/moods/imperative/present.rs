@@ -1,4 +1,3 @@
-use crate::grammar::get_he_stem;
 use crate::grammar::get_minä_stem;
 use crate::grammar::transforms::*;
 use crate::verb::TransformLogEntry;
