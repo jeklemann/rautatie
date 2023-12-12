@@ -1,3 +1,4 @@
+use crate::grammar::get_he_stem;
 use crate::grammar::moods::*;
 use crate::grammar::transforms::*;
 use crate::verb::{Verb, VerbType};
@@ -59,6 +60,32 @@ pub fn past_passive_participle(verb: &mut Verb) {
             "past positive ending 'iin'",
             String::from(verb.vowels.u).as_str(),
             "past passive participle ending",
+        );
+    });
+}
+
+pub fn present_active_participle(verb: &mut Verb) {
+    get_he_stem(verb);
+
+    verb.transform(|verb| {
+        return append_ending(
+            verb,
+            format!("v{}", verb.vowels.a).as_str(),
+            "present active participle",
+        );
+    });
+}
+
+pub fn present_passive_participle(verb: &mut Verb) {
+    indicative::imperfect::passive_positive(verb);
+
+    verb.transform(|verb| {
+        return replace_ending(
+            verb,
+            "iin",
+            "past positive ending 'iin'",
+            format!("{0}v{0}", verb.vowels.a).as_str(),
+            "present passive participle ending",
         );
     });
 }
