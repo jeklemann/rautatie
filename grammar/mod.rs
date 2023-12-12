@@ -4,6 +4,7 @@ use self::transforms::*;
 
 mod transforms;
 
+pub mod form_table;
 pub mod moods;
 pub mod participles;
 
