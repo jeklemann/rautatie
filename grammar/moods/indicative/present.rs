@@ -56,7 +56,14 @@ pub fn third_person_plural_positive(verb: &mut Verb) {
     get_he_stem(verb);
 
     verb.transform(|verb| {
-        return add_personal_ending(verb, Person::ThirdPlural);
+        if verb.infinitive == "olla" {
+            return Some(TransformLogEntry {
+                action: String::from("Use the special third person plural form 'ovat'"),
+                new_text: String::from("ovat"),
+            });
+        } else {
+            return add_personal_ending(verb, Person::ThirdPlural);
+        }
     });
 }
 
