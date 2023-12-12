@@ -76,6 +76,18 @@ pub fn present_active_participle(verb: &mut Verb) {
     });
 }
 
+pub fn agent_participle(verb: &mut Verb) {
+    get_he_stem(verb);
+
+    verb.transform(|verb| {
+        return append_ending(
+            verb,
+            format!("m{}", verb.vowels.a).as_str(),
+            "agent participle",
+        );
+    });
+}
+
 pub fn present_passive_participle(verb: &mut Verb) {
     indicative::imperfect::passive_positive(verb);
 
