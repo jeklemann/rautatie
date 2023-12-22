@@ -4,9 +4,57 @@ use self::transforms::*;
 
 mod transforms;
 
-pub mod form_table;
+pub mod dispatch;
 pub mod moods;
 pub mod participles;
+
+pub struct Mood {
+    pub present: Option<&'static Tense>,
+    pub imperfect: Option<&'static Tense>,
+    pub perfect: Option<&'static Tense>,
+    pub pluperfect: Option<&'static Tense>,
+}
+
+pub struct Tense {
+    pub first_person_singular_positive: fn(&mut Verb),
+    pub second_person_singular_positive: fn(&mut Verb),
+    pub third_person_singular_positive: fn(&mut Verb),
+    pub first_person_plural_positive: fn(&mut Verb),
+    pub second_person_plural_positive: fn(&mut Verb),
+    pub third_person_plural_positive: fn(&mut Verb),
+    pub passive_positive: fn(&mut Verb),
+
+    pub first_person_singular_negative: fn(&mut Verb),
+    pub second_person_singular_negative: fn(&mut Verb),
+    pub third_person_singular_negative: fn(&mut Verb),
+    pub first_person_plural_negative: fn(&mut Verb),
+    pub second_person_plural_negative: fn(&mut Verb),
+    pub third_person_plural_negative: fn(&mut Verb),
+    pub passive_negative: fn(&mut Verb),
+}
+
+#[macro_export]
+macro_rules! gen_tense_struct {
+    () => {
+        pub static TENSE_STRUCT: crate::grammar::Tense = crate::grammar::Tense {
+            first_person_singular_positive: first_person_singular_positive,
+            second_person_singular_positive: second_person_singular_positive,
+            third_person_singular_positive: third_person_singular_positive,
+            first_person_plural_positive: first_person_plural_positive,
+            second_person_plural_positive: second_person_plural_positive,
+            third_person_plural_positive: third_person_plural_positive,
+            passive_positive: passive_positive,
+
+            first_person_singular_negative: first_person_singular_negative,
+            second_person_singular_negative: second_person_singular_negative,
+            third_person_singular_negative: third_person_singular_negative,
+            first_person_plural_negative: first_person_plural_negative,
+            second_person_plural_negative: second_person_plural_negative,
+            third_person_plural_negative: third_person_plural_negative,
+            passive_negative: passive_negative,
+        };
+    };
+}
 
 pub fn gradate_t_char(previous_syllable: &str) -> String {
     let previous_char = previous_syllable.chars().last().unwrap();

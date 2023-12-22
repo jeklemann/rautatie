@@ -1,3 +1,4 @@
+use crate::gen_tense_struct;
 use crate::grammar::get_he_stem;
 use crate::grammar::transforms::*;
 use crate::verb::TransformLogEntry;
@@ -178,3 +179,5 @@ pub fn passive_negative(verb: &mut Verb) {
         return prepend_personal_negative(verb, Person::ThirdSingular);
     });
 }
+
+gen_tense_struct!();

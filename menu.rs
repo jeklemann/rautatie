@@ -1,6 +1,6 @@
 use std::io;
 
-use crate::grammar::form_table::{
+use crate::grammar::dispatch::{
     dispatch_participle_form_func, dispatch_verb_form_func, MoodSelection, ParticipleSelection,
     PersonSelection, TenseSelection,
 };
