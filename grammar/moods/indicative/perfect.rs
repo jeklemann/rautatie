@@ -1,3 +1,4 @@
+use crate::gen_tense_struct;
 use crate::grammar::participles::*;
 use crate::grammar::transforms::*;
 use crate::verb::Verb;
@@ -169,3 +170,5 @@ pub fn passive_negative(verb: &mut Verb) {
         );
     });
 }
+
+gen_tense_struct!();
