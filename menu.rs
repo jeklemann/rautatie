@@ -59,7 +59,7 @@ fn prompt_verb_form(verb: &mut Verb) {
         println!("1 - Present");
         println!("2 - Imperfect");
         println!("3 - Perfect");
-        println!("3 - Pluperfect");
+        println!("4 - Pluperfect");
 
         let mut tense: Option<TenseSelection> = None;
         while let None = tense {
