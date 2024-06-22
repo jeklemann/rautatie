@@ -36,7 +36,7 @@ pub struct Verb {
 }
 
 impl Verb {
-    pub fn transform(&mut self, transform_func: fn(&Verb) -> Option<TransformLogEntry>) {
+    pub fn transform(&mut self, transform_func: &dyn Fn(&Verb) -> Option<TransformLogEntry>) {
         if let Some(entry) = transform_func(self) {
             self.text = entry.new_text.clone();
             self.log.push(entry);

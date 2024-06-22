@@ -1,13 +1,14 @@
 use crate::grammar::get_he_stem;
 use crate::grammar::moods::*;
 use crate::grammar::transforms::*;
+use crate::grammar::Tense;
 use crate::verb::{Verb, VerbType};
 
 pub fn past_active_participle(verb: &mut Verb, is_plural: bool) {
-    verb.transform(get_infinitive);
+    verb.transform(&get_infinitive);
 
     match verb.verb_type {
-        VerbType::ONE => verb.transform(|verb| {
+        VerbType::ONE => verb.transform(&|verb| {
             return replace_ending(
                 verb,
                 verb.vowels.a.to_string().as_str(),
@@ -16,7 +17,7 @@ pub fn past_active_participle(verb: &mut Verb, is_plural: bool) {
                 "past active participle marker",
             );
         }),
-        VerbType::TWO => verb.transform(|verb| {
+        VerbType::TWO => verb.transform(&|verb| {
             return replace_ending(
                 verb,
                 format!("d{}", verb.vowels.a).as_str(),
@@ -25,8 +26,8 @@ pub fn past_active_participle(verb: &mut Verb, is_plural: bool) {
                 "past active participle marker",
             );
         }),
-        VerbType::THREE => verb.transform(add_active_past_participle_marker_for_type_three),
-        VerbType::FOUR | VerbType::FIVE | VerbType::SIX => verb.transform(|verb| {
+        VerbType::THREE => verb.transform(&add_active_past_participle_marker_for_type_three),
+        VerbType::FOUR | VerbType::FIVE | VerbType::SIX => verb.transform(&|verb| {
             return replace_ending(
                 verb,
                 format!("t{}", verb.vowels.a).as_str(),
@@ -38,7 +39,7 @@ pub fn past_active_participle(verb: &mut Verb, is_plural: bool) {
     }
 
     if is_plural {
-        verb.transform(|verb| {
+        verb.transform(&|verb| {
             return replace_ending(
                 verb,
                 "[yu]t",
@@ -51,9 +52,9 @@ pub fn past_active_participle(verb: &mut Verb, is_plural: bool) {
 }
 
 pub fn past_passive_participle(verb: &mut Verb) {
-    indicative::imperfect::passive_positive(verb);
+    indicative::imperfect::TENSE_STRUCT.passive_positive(verb);
 
-    verb.transform(|verb| {
+    verb.transform(&|verb| {
         return replace_ending(
             verb,
             "iin",
@@ -67,7 +68,7 @@ pub fn past_passive_participle(verb: &mut Verb) {
 pub fn present_active_participle(verb: &mut Verb) {
     get_he_stem(verb);
 
-    verb.transform(|verb| {
+    verb.transform(&|verb| {
         return append_ending(
             verb,
             format!("v{}", verb.vowels.a).as_str(),
@@ -79,7 +80,7 @@ pub fn present_active_participle(verb: &mut Verb) {
 pub fn agent_participle(verb: &mut Verb) {
     get_he_stem(verb);
 
-    verb.transform(|verb| {
+    verb.transform(&|verb| {
         return append_ending(
             verb,
             format!("m{}", verb.vowels.a).as_str(),
@@ -89,9 +90,9 @@ pub fn agent_participle(verb: &mut Verb) {
 }
 
 pub fn present_passive_participle(verb: &mut Verb) {
-    indicative::imperfect::passive_positive(verb);
+    indicative::imperfect::TENSE_STRUCT.passive_positive(verb);
 
-    verb.transform(|verb| {
+    verb.transform(&|verb| {
         return replace_ending(
             verb,
             "iin",
