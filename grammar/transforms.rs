@@ -48,13 +48,6 @@ pub fn invalid_form(verb: &Verb) -> Option<TransformLogEntry> {
     });
 }
 
-pub fn not_implemented_form(verb: &Verb) -> Option<TransformLogEntry> {
-    return Some(TransformLogEntry {
-        action: String::from("This form is not implemented)"),
-        new_text: String::from(""),
-    });
-}
-
 pub enum Person {
     FirstSingular,
     SecondSingular,
