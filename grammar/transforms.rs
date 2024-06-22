@@ -41,7 +41,7 @@ pub fn get_imperfect_stem(verb: &Verb) -> Option<TransformLogEntry> {
     });
 }
 
-pub fn invalid_form(verb: &Verb) -> Option<TransformLogEntry> {
+pub fn invalid_form(_verb: &Verb) -> Option<TransformLogEntry> {
     return Some(TransformLogEntry {
         action: String::from("This form does not exist"),
         new_text: String::from(""),
