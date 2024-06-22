@@ -1,6 +1,6 @@
-use crate::gen_tense_struct;
 use crate::grammar::get_he_stem;
 use crate::grammar::transforms::*;
+use crate::grammar::Tense;
 use crate::verb::TransformLogEntry;
 use crate::verb::{Verb, VerbType};
 
@@ -9,14 +9,14 @@ fn get_conditional_stem(verb: &mut Verb) {
 
     let last_char = verb.text.chars().last().unwrap();
     if last_char == 'i' {
-        verb.transform(|verb| {
+        verb.transform(&|verb| {
             return append_ending(verb, "si", "conditional");
         });
         return;
     }
 
     match verb.verb_type {
-        VerbType::ONE => verb.transform(|verb| {
+        VerbType::ONE => verb.transform(&|verb| {
             if let Some(replacement_log) =
                 replace_ending(verb, "e", "ending 'e'", "isi", "conditional ending")
             {
@@ -26,8 +26,8 @@ fn get_conditional_stem(verb: &mut Verb) {
             }
         }),
         VerbType::TWO => {
-            verb.transform(add_imperfect_marker_for_type_two);
-            verb.transform(|verb| {
+            verb.transform(&add_imperfect_marker_for_type_two);
+            verb.transform(&|verb| {
                 return append_ending(verb, "si", "conditional ending");
             })
         }
@@ -35,7 +35,7 @@ fn get_conditional_stem(verb: &mut Verb) {
             let end_chars: Vec<char> = verb.text.chars().rev().take(2).collect();
             // Check for a double vowel ending to stem, which is always a or ä
             if end_chars[0] == end_chars[1] {
-                verb.transform(|verb| {
+                verb.transform(&|verb| {
                     return replace_ending(
                         verb,
                         r"[aä]",
@@ -45,139 +45,143 @@ fn get_conditional_stem(verb: &mut Verb) {
                     );
                 });
             } else {
-                verb.transform(|verb| return append_ending(verb, "isi", "conditional ending"))
+                verb.transform(&|verb| return append_ending(verb, "isi", "conditional ending"))
             }
         }
-        _ => verb.transform(|verb| {
+        _ => verb.transform(&|verb| {
             return replace_ending(verb, "e", "ending 'e'", "isi", "conditional ending");
         }),
     }
 }
 
-pub fn first_person_singular_positive(verb: &mut Verb) {
-    get_conditional_stem(verb);
+pub struct ConditionalPresentTense;
 
-    verb.transform(|verb| {
-        return add_personal_ending(verb, Person::FirstSingular);
-    });
-}
+impl Tense for ConditionalPresentTense {
+    fn first_person_singular_positive(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
 
-pub fn second_person_singular_positive(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return add_personal_ending(verb, Person::SecondSingular);
-    });
-}
-
-pub fn third_person_singular_positive(verb: &mut Verb) {
-    get_conditional_stem(verb);
-    // Don't add anything to this
-}
-
-pub fn first_person_plural_positive(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return add_personal_ending(verb, Person::FirstPlural);
-    });
-}
-
-pub fn second_person_plural_positive(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return add_personal_ending(verb, Person::SecondPlural);
-    });
-}
-
-pub fn third_person_plural_positive(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return add_personal_ending(verb, Person::ThirdPlural);
-    });
-}
-
-pub fn passive_positive(verb: &mut Verb) {
-    // Based mostly off imperfect passive form
-    crate::grammar::moods::indicative::imperfect::passive_positive(verb);
-
-    verb.transform(|verb| {
-        return replace_ending(
-            verb,
-            "iin",
-            "ending 'iin'",
-            format!("{}isiin", verb.vowels.a).as_str(),
-            "passive conditional ending",
-        );
-    });
-}
-
-pub fn first_person_singular_negative(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return prepend_personal_negative(verb, Person::FirstSingular);
-    });
-}
-
-pub fn second_person_singular_negative(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return prepend_personal_negative(verb, Person::SecondSingular);
-    });
-}
-
-pub fn third_person_singular_negative(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return prepend_personal_negative(verb, Person::ThirdSingular);
-    });
-}
-
-pub fn first_person_plural_negative(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return prepend_personal_negative(verb, Person::FirstPlural);
-    });
-}
-
-pub fn second_person_plural_negative(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return prepend_personal_negative(verb, Person::SecondPlural);
-    });
-}
-
-pub fn third_person_plural_negative(verb: &mut Verb) {
-    get_conditional_stem(verb);
-
-    verb.transform(|verb| {
-        return prepend_personal_negative(verb, Person::ThirdPlural);
-    });
-}
-
-pub fn passive_negative(verb: &mut Verb) {
-    // Based off the positive form, just remove the ending
-    passive_positive(verb);
-
-    verb.transform(|verb| {
-        let stem_end = verb.text.char_indices().nth_back(1).unwrap().0;
-
-        return Some(TransformLogEntry {
-            action: String::from("Remove ending 'in'"),
-            new_text: String::from(&verb.text[..stem_end]),
+        verb.transform(&|verb| {
+            return add_personal_ending(verb, Person::FirstSingular);
         });
-    });
+    }
 
-    verb.transform(|verb| {
-        return prepend_personal_negative(verb, Person::ThirdSingular);
-    });
+    fn second_person_singular_positive(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return add_personal_ending(verb, Person::SecondSingular);
+        });
+    }
+
+    fn third_person_singular_positive(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+        // Don't add anything to this
+    }
+
+    fn first_person_plural_positive(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return add_personal_ending(verb, Person::FirstPlural);
+        });
+    }
+
+    fn second_person_plural_positive(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return add_personal_ending(verb, Person::SecondPlural);
+        });
+    }
+
+    fn third_person_plural_positive(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return add_personal_ending(verb, Person::ThirdPlural);
+        });
+    }
+
+    fn passive_positive(&self, verb: &mut Verb) {
+        // Based mostly off imperfect passive form
+        crate::grammar::moods::indicative::imperfect::TENSE_STRUCT.passive_positive(verb);
+
+        verb.transform(&|verb| {
+            return replace_ending(
+                verb,
+                "iin",
+                "ending 'iin'",
+                format!("{}isiin", verb.vowels.a).as_str(),
+                "passive conditional ending",
+            );
+        });
+    }
+
+    fn first_person_singular_negative(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return prepend_personal_negative(verb, Person::FirstSingular);
+        });
+    }
+
+    fn second_person_singular_negative(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return prepend_personal_negative(verb, Person::SecondSingular);
+        });
+    }
+
+    fn third_person_singular_negative(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return prepend_personal_negative(verb, Person::ThirdSingular);
+        });
+    }
+
+    fn first_person_plural_negative(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return prepend_personal_negative(verb, Person::FirstPlural);
+        });
+    }
+
+    fn second_person_plural_negative(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return prepend_personal_negative(verb, Person::SecondPlural);
+        });
+    }
+
+    fn third_person_plural_negative(&self, verb: &mut Verb) {
+        get_conditional_stem(verb);
+
+        verb.transform(&|verb| {
+            return prepend_personal_negative(verb, Person::ThirdPlural);
+        });
+    }
+
+    fn passive_negative(&self, verb: &mut Verb) {
+        // Based off the positive form, just remove the ending
+        self.passive_positive(verb);
+
+        verb.transform(&|verb| {
+            let stem_end = verb.text.char_indices().nth_back(1).unwrap().0;
+
+            return Some(TransformLogEntry {
+                action: String::from("Remove ending 'in'"),
+                new_text: String::from(&verb.text[..stem_end]),
+            });
+        });
+
+        verb.transform(&|verb| {
+            return prepend_personal_negative(verb, Person::ThirdSingular);
+        });
+    }
 }
 
-gen_tense_struct!();
+pub static TENSE_STRUCT: ConditionalPresentTense = ConditionalPresentTense {};

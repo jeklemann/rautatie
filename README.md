@@ -21,8 +21,7 @@ This program conjugates verbs in Finnish, as well as forming the base forms of p
 - Potential
 
 ## Improvements
-- A lot of the perfect code is just duplicated code
-- The tenses could maybe be moved into a trait, which may help with facilitating the above
+- Likely some weirdness involving string references
 
 ## Bugs
 - Yes

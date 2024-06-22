@@ -69,23 +69,23 @@ pub fn dispatch_verb_form_func(
 
     if is_negative {
         match person_sel {
-            PersonSelection::FirstSingular => (tense.first_person_singular_negative)(verb),
-            PersonSelection::SecondSingular => (tense.second_person_singular_negative)(verb),
-            PersonSelection::ThirdSingular => (tense.third_person_singular_negative)(verb),
-            PersonSelection::FirstPlural => (tense.first_person_plural_negative)(verb),
-            PersonSelection::SecondPlural => (tense.second_person_plural_negative)(verb),
-            PersonSelection::ThirdPlural => (tense.third_person_plural_negative)(verb),
-            PersonSelection::Passive => (tense.passive_negative)(verb),
+            PersonSelection::FirstSingular => tense.first_person_singular_negative(verb),
+            PersonSelection::SecondSingular => tense.second_person_singular_negative(verb),
+            PersonSelection::ThirdSingular => tense.third_person_singular_negative(verb),
+            PersonSelection::FirstPlural => tense.first_person_plural_negative(verb),
+            PersonSelection::SecondPlural => tense.second_person_plural_negative(verb),
+            PersonSelection::ThirdPlural => tense.third_person_plural_negative(verb),
+            PersonSelection::Passive => tense.passive_negative(verb),
         }
     } else {
         match person_sel {
-            PersonSelection::FirstSingular => (tense.first_person_singular_positive)(verb),
-            PersonSelection::SecondSingular => (tense.second_person_singular_positive)(verb),
-            PersonSelection::ThirdSingular => (tense.third_person_singular_positive)(verb),
-            PersonSelection::FirstPlural => (tense.first_person_plural_positive)(verb),
-            PersonSelection::SecondPlural => (tense.second_person_plural_positive)(verb),
-            PersonSelection::ThirdPlural => (tense.third_person_plural_positive)(verb),
-            PersonSelection::Passive => (tense.passive_positive)(verb),
+            PersonSelection::FirstSingular => tense.first_person_singular_positive(verb),
+            PersonSelection::SecondSingular => tense.second_person_singular_positive(verb),
+            PersonSelection::ThirdSingular => tense.third_person_singular_positive(verb),
+            PersonSelection::FirstPlural => tense.first_person_plural_positive(verb),
+            PersonSelection::SecondPlural => tense.second_person_plural_positive(verb),
+            PersonSelection::ThirdPlural => tense.third_person_plural_positive(verb),
+            PersonSelection::Passive => tense.passive_positive(verb),
         }
     }
 

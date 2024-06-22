@@ -252,7 +252,7 @@ pub fn add_active_past_participle_marker_for_type_three(verb: &Verb) -> Option<T
 pub fn prepend_olla_form(
     verb: &Verb,
     form_name: &str,
-    form_func: fn(&mut Verb) -> (),
+    form_func: &dyn Fn(&mut Verb) -> (),
 ) -> Option<TransformLogEntry> {
     let mut olla_verb = get_verb_from_wiktionary("olla").unwrap();
     form_func(&mut olla_verb);
