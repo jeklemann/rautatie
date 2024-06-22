@@ -5,7 +5,6 @@ use self::transforms::*;
 mod transforms;
 
 pub mod dispatch;
-pub mod macros;
 pub mod moods;
 pub mod participles;
 
