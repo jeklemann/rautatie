@@ -11,13 +11,23 @@ pub fn past_active_participle(verb: &mut Verb, is_plural: bool) {
 
     match verb.verb_type {
         VerbType::ONE => verb.transform(&|verb| {
-            return replace_ending(
-                verb,
-                verb.vowels.a.to_string().as_str(),
-                format!("ending '{}'", verb.vowels.a).as_str(),
-                format!("n{}t", verb.vowels.u).as_str(),
-                "past active participle marker",
-            );
+            if verb.has_short_past_participle {
+                return replace_ending(
+                    verb,
+                    format!("t{0}{0}", verb.vowels.a).as_str(),
+                    format!("ending 't{0}{0}'", verb.vowels.a).as_str(),
+                    format!("nn{}t", verb.vowels.u).as_str(),
+                    "past active participle marker",
+                );
+            } else {
+                return replace_ending(
+                    verb,
+                    verb.vowels.a.to_string().as_str(),
+                    format!("ending '{}'", verb.vowels.a).as_str(),
+                    format!("n{}t", verb.vowels.u).as_str(),
+                    "past active participle marker",
+                );
+            }
         }),
         VerbType::TWO => verb.transform(&|verb| {
             return replace_ending(
