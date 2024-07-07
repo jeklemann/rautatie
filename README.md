@@ -18,7 +18,6 @@ This program conjugates verbs in Finnish, as well as forming the base forms of p
 
 ## Currently unimplemented
 - Non-lemma infinitives
-- Potential
 
 ## Improvements
 - Likely some weirdness involving string references

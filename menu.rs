@@ -37,6 +37,7 @@ fn prompt_verb_form(verb: &mut Verb) {
         println!("1 - Indicative");
         println!("2 - Imperative");
         println!("3 - Conditional");
+        println!("4 - Potential");
 
         let mut mood: Option<MoodSelection> = None;
         while let None = mood {
@@ -49,6 +50,7 @@ fn prompt_verb_form(verb: &mut Verb) {
                 "1" => mood = Some(MoodSelection::Indicative),
                 "2" => mood = Some(MoodSelection::Imperative),
                 "3" => mood = Some(MoodSelection::Conditional),
+                "4" => mood = Some(MoodSelection::Potential),
                 _ => {
                     println!("Please input a valid option")
                 }
