@@ -224,21 +224,17 @@ pub fn add_imperfect_marker_for_type_two(verb: &Verb) -> Option<TransformLogEntr
 }
 
 pub fn add_active_past_participle_marker_for_type_three(verb: &Verb) -> Option<TransformLogEntry> {
-    let chars = verb.text.char_indices();
-    let indices: Vec<usize> = chars.rev().take(2).map(|tuple| tuple.0).collect(); // Reverse order
+    let last_three_chars = verb.text.char_indices().rev().take(3);
+    let (indices, chars): (Vec<usize>, Vec<char>) = last_three_chars.into_iter().unzip(); // Reverse order
 
     return Some(TransformLogEntry {
         action: format!(
-            "Replace ending '{}' with past active participle marker '{}t'",
+            "Replace ending '{}' with past active participle marker '{}{}t'",
             &verb.text[indices[1]..],
+            chars[2],
             verb.vowels.u
         ),
-        new_text: format!(
-            "{}{}{}t",
-            &verb.text[..indices[1]],
-            &verb.text[indices[1]..indices[0]],
-            verb.vowels.u
-        ),
+        new_text: format!("{}{}{}t", &verb.text[..indices[1]], chars[2], verb.vowels.u),
     });
 }
 
