@@ -2,6 +2,7 @@ use super::moods::conditional::present::ConditionalPresentTense;
 use super::moods::imperative::present::ImperativePresentTense;
 use super::moods::indicative::imperfect::IndicativeImperfectTense;
 use super::moods::indicative::present::IndicativePresentTense;
+use super::moods::potential::present::PotentialPresentTense;
 use super::participles::*;
 use super::perfect::create_perfect_from_base;
 use super::Mood;
@@ -19,6 +20,7 @@ pub enum MoodSelection {
     Indicative,
     Imperative,
     Conditional,
+    Potential,
 }
 
 pub enum TenseSelection {
@@ -42,6 +44,7 @@ struct TenseTable {
     conditional: Mood,
     imperative: Mood,
     indicative: Mood,
+    potential: Mood,
 }
 
 static TENSE_TABLE: TenseTable = TenseTable {
@@ -63,6 +66,12 @@ static TENSE_TABLE: TenseTable = TenseTable {
         imperfect: Some(&IndicativeImperfectTense {}),
         pluperfect: Some(&create_perfect_from_base(&IndicativeImperfectTense {})),
     },
+    potential: Mood {
+        present: Some(&PotentialPresentTense {}),
+        perfect: Some(&create_perfect_from_base(&PotentialPresentTense {})),
+        imperfect: None,
+        pluperfect: None,
+    },
 };
 
 pub fn dispatch_verb_form_func(
@@ -76,6 +85,7 @@ pub fn dispatch_verb_form_func(
         MoodSelection::Conditional => &TENSE_TABLE.conditional,
         MoodSelection::Imperative => &TENSE_TABLE.imperative,
         MoodSelection::Indicative => &TENSE_TABLE.indicative,
+        MoodSelection::Potential => &TENSE_TABLE.potential,
     };
 
     let Some(tense) = (match tense_sel {
