@@ -135,7 +135,7 @@ impl Tense for IndicativeImperfectTense {
                 );
             }),
             VerbType::THREE => verb.transform(&|verb| {
-                let fourth_last_char = verb.text.chars().nth_back(4).unwrap();
+                let fourth_last_char = verb.text.chars().nth_back(3).unwrap();
                 return replace_ending(
                     verb,
                     ".[aä]{2}n",
