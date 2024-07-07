@@ -135,5 +135,3 @@ impl Tense for IndicativePresentTense {
         });
     }
 }
-
-pub static TENSE_STRUCT: IndicativePresentTense = IndicativePresentTense {};

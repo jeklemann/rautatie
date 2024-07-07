@@ -1,3 +1,7 @@
+use crate::grammar::dispatch::dispatch_verb_form_func;
+use crate::grammar::dispatch::MoodSelection;
+use crate::grammar::dispatch::PersonSelection;
+use crate::grammar::dispatch::TenseSelection;
 use crate::grammar::get_he_stem;
 use crate::grammar::transforms::*;
 use crate::grammar::Tense;
@@ -103,8 +107,14 @@ impl Tense for ConditionalPresentTense {
     }
 
     fn passive_positive(&self, verb: &mut Verb) {
-        // Based mostly off imperfect passive form
-        crate::grammar::moods::indicative::imperfect::TENSE_STRUCT.passive_positive(verb);
+        // Based mostly off indicative imperfect passive form
+        dispatch_verb_form_func(
+            verb,
+            MoodSelection::Indicative,
+            TenseSelection::Imperfect,
+            PersonSelection::Passive,
+            false,
+        );
 
         verb.transform(&|verb| {
             return replace_ending(
@@ -183,5 +193,3 @@ impl Tense for ConditionalPresentTense {
         });
     }
 }
-
-pub static TENSE_STRUCT: ConditionalPresentTense = ConditionalPresentTense {};

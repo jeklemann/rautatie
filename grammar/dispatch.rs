@@ -1,4 +1,9 @@
+use super::moods::conditional::present::ConditionalPresentTense;
+use super::moods::imperative::present::ImperativePresentTense;
+use super::moods::indicative::imperfect::IndicativeImperfectTense;
+use super::moods::indicative::present::IndicativePresentTense;
 use super::participles::*;
+use super::perfect::create_perfect_from_base;
 use super::Mood;
 use crate::verb::Verb;
 
@@ -33,16 +38,31 @@ pub enum PersonSelection {
     Passive,
 }
 
-struct Moods {
-    conditional: &'static Mood,
-    imperative: &'static Mood,
-    indicative: &'static Mood,
+struct TenseTable {
+    conditional: Mood,
+    imperative: Mood,
+    indicative: Mood,
 }
 
-static MOODS: Moods = Moods {
-    conditional: &super::moods::conditional::MOOD_STRUCT,
-    imperative: &super::moods::imperative::MOOD_STRUCT,
-    indicative: &super::moods::indicative::MOOD_STRUCT,
+static TENSE_TABLE: TenseTable = TenseTable {
+    conditional: Mood {
+        present: Some(&ConditionalPresentTense {}),
+        perfect: Some(&create_perfect_from_base(&ConditionalPresentTense {})),
+        imperfect: None,
+        pluperfect: None,
+    },
+    imperative: Mood {
+        present: Some(&ImperativePresentTense {}),
+        perfect: Some(&create_perfect_from_base(&ImperativePresentTense {})),
+        imperfect: None,
+        pluperfect: None,
+    },
+    indicative: Mood {
+        present: Some(&IndicativePresentTense {}),
+        perfect: Some(&create_perfect_from_base(&IndicativePresentTense {})),
+        imperfect: Some(&IndicativeImperfectTense {}),
+        pluperfect: Some(&create_perfect_from_base(&IndicativeImperfectTense {})),
+    },
 };
 
 pub fn dispatch_verb_form_func(
@@ -53,9 +73,9 @@ pub fn dispatch_verb_form_func(
     is_negative: bool,
 ) -> bool {
     let mood = match mood_sel {
-        MoodSelection::Conditional => MOODS.conditional,
-        MoodSelection::Imperative => MOODS.imperative,
-        MoodSelection::Indicative => MOODS.indicative,
+        MoodSelection::Conditional => &TENSE_TABLE.conditional,
+        MoodSelection::Imperative => &TENSE_TABLE.imperative,
+        MoodSelection::Indicative => &TENSE_TABLE.indicative,
     };
 
     let Some(tense) = (match tense_sel {

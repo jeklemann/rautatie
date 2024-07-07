@@ -1,7 +1,9 @@
+use crate::grammar::dispatch::dispatch_verb_form_func;
+use crate::grammar::dispatch::MoodSelection;
+use crate::grammar::dispatch::PersonSelection;
+use crate::grammar::dispatch::TenseSelection;
 use crate::grammar::get_he_stem;
-use crate::grammar::moods::*;
 use crate::grammar::transforms::*;
-use crate::grammar::Tense;
 use crate::verb::{Verb, VerbType};
 
 pub fn past_active_participle(verb: &mut Verb, is_plural: bool) {
@@ -52,7 +54,14 @@ pub fn past_active_participle(verb: &mut Verb, is_plural: bool) {
 }
 
 pub fn past_passive_participle(verb: &mut Verb) {
-    indicative::imperfect::TENSE_STRUCT.passive_positive(verb);
+    // Based mostly off indicative imperfect passive form
+    dispatch_verb_form_func(
+        verb,
+        MoodSelection::Indicative,
+        TenseSelection::Imperfect,
+        PersonSelection::Passive,
+        false,
+    );
 
     verb.transform(&|verb| {
         return replace_ending(
@@ -90,7 +99,14 @@ pub fn agent_participle(verb: &mut Verb) {
 }
 
 pub fn present_passive_participle(verb: &mut Verb) {
-    indicative::imperfect::TENSE_STRUCT.passive_positive(verb);
+    // Based mostly off indicative imperfect passive form
+    dispatch_verb_form_func(
+        verb,
+        MoodSelection::Indicative,
+        TenseSelection::Imperfect,
+        PersonSelection::Passive,
+        false,
+    );
 
     verb.transform(&|verb| {
         return replace_ending(

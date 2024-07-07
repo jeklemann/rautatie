@@ -1,3 +1,7 @@
+use crate::grammar::dispatch::dispatch_verb_form_func;
+use crate::grammar::dispatch::MoodSelection;
+use crate::grammar::dispatch::PersonSelection;
+use crate::grammar::dispatch::TenseSelection;
 use crate::grammar::get_he_stem;
 use crate::grammar::get_minä_stem;
 use crate::grammar::participles::*;
@@ -108,7 +112,14 @@ impl Tense for IndicativeImperfectTense {
     }
 
     fn passive_positive(&self, verb: &mut Verb) {
-        super::present::TENSE_STRUCT.passive_positive(verb);
+        // Based mostly off present passive form
+        dispatch_verb_form_func(
+            verb,
+            MoodSelection::Indicative,
+            TenseSelection::Present,
+            PersonSelection::Passive,
+            false,
+        );
 
         // This can largely be explained as strengthening the grade of the passive ending itself
         // Type 2 has daan -> tiin (d -> t), Type 3 will have ll -> lt for example, (st doesn't change because it is protected by s)
@@ -205,5 +216,3 @@ impl Tense for IndicativeImperfectTense {
         });
     }
 }
-
-pub static TENSE_STRUCT: IndicativeImperfectTense = IndicativeImperfectTense {};
