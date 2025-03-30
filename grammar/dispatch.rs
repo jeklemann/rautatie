@@ -47,7 +47,7 @@ struct TenseTable {
     potential: Mood,
 }
 
-static TENSE_TABLE: TenseTable = TenseTable {
+const TENSE_TABLE: TenseTable = TenseTable {
     conditional: Mood {
         present: Some(&ConditionalPresentTense {}),
         perfect: Some(&create_perfect_from_base(&ConditionalPresentTense {})),
