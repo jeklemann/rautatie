@@ -20,7 +20,8 @@ This program conjugates verbs in Finnish, as well as forming the base forms of p
 - Non-lemma infinitives
 
 ## Improvements
-- Likely some weirdness involving string references
+- The handling of strings may not always make sense
+- It would be nice to use a Wiktionary dump so that internet connectivity is unnecessary, and to make the folks at Wiktionary happy.
 
 ## Bugs
 - Yes
