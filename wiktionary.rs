@@ -179,7 +179,13 @@ fn fetch_wiktionary_page(verb: &str) -> Result<String, Box<dyn Error>> {
         "https://en.wiktionary.org/wiki/{}?action=raw&ctype=text/css",
         verb
     );
-    let resp = reqwest::blocking::get(url)?.text()?;
+
+    let client = reqwest::blocking::Client::new();
+    let resp = client
+        .get(url)
+        .header(reqwest::header::USER_AGENT, "rautatie/HEAD (https://github.com/jeklemann/rautatie; jeklemann@protonmail.ch)")
+        .send()?
+        .text()?;
     return Ok(resp);
 }
 
